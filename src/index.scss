@@ -31,3 +31,22 @@ a {
   color: $text;
   font-family: $mulish;
 }
+
+.btn {
+  width: 200px;
+  background: linear-gradient(to right, #02457a, #018abe);
+  border: 2px solid $medium;
+  padding: 0.5rem 0;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  transition: all 500ms ease-in-out;
+  -webkit-transition: all 500ms ease-in-out;
+}
+
+.btn:hover {
+  background: linear-gradient(to right, #018abe, #02457a);
+  transition: all 500ms ease-in-out;
+}
