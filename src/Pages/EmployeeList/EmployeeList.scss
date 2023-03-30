@@ -1,0 +1,31 @@
+@import '../../_variables';
+
+.table {
+    background-color: $gray;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-family: $mulish;
+
+    .table_row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+
+        .table-cell {
+            width: 25%;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid rgb(187, 187, 187);
+        }
+    }
+}
+
+.row_one {
+    background-color: $medium;
+    color: white;
+    font-weight: 600;
+}

@@ -28,8 +28,12 @@ a {
   font-size: 1rem;
   text-decoration: none;
   cursor: pointer;
-  color: $text;
+  color: black;
   font-family: $mulish;
+}
+
+li {
+  list-style: none;
 }
 
 .btn {
@@ -49,4 +53,12 @@ a {
 .btn:hover {
   background: linear-gradient(to right, #018abe, #02457a);
   transition: all 500ms ease-in-out;
+}
+
+// Page Title
+.title {
+  font-size: 2rem;
+  font-weight: 500;
+  color: $dark;
+  margin: 1rem 0;
 }
