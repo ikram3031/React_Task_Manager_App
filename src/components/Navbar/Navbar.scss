@@ -1,0 +1,29 @@
+@import '../../_variables';
+
+.navBar {
+    // background-color: linear-gradient(to right, $dark, $medium);
+    background: linear-gradient(to bottom, #001b48, #02457a);
+
+    header {
+        padding: 1rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .logo {
+            font-size: 1.5rem;
+            color: $gray;
+            font-weight: 700;
+        }
+
+        .nav_menu {
+            display: flex;
+            gap: 1rem;
+
+            .nav_item {
+                color: $gray;
+                font-weight: 600;
+            }
+        }
+    }
+}

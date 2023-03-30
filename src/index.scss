@@ -1,0 +1,33 @@
+@import './_variables';
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $alata;
+}
+
+p {
+  font-family: $mulish;
+  font-size: 1rem;
+}
+
+a {
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  color: $text;
+  font-family: $mulish;
+}
