@@ -17,6 +17,7 @@ h4,
 h5,
 h6 {
   font-family: $alata;
+  color: $dark;
 }
 
 p {
@@ -61,4 +62,14 @@ li {
   font-weight: 500;
   color: $dark;
   margin: 1rem 0;
+}
+
+.m1 {
+  margin: 1rem 0;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Employees } from '../../data/Data';
 import './EmployeeList.scss'
 
 const EmployeeList = () => {
+    const navigate = useNavigate();
     const [employeeData, setEmployeeData] = useState([]);
 
     useEffect(() => {
@@ -12,7 +13,10 @@ const EmployeeList = () => {
 
     return (
         <div className='container'>
-            <h2 className='title'>Employee List</h2>
+            <div className="top">
+                <h2 className='title'>Employee List</h2>
+                <button onClick={() => navigate('/employee?mode=add')} className='btn'>Add New</button>
+            </div>
             <ul className='table'>
                 <li className='table_row row_one'>
                     <div className='table-cell'>Name</div>
@@ -21,7 +25,7 @@ const EmployeeList = () => {
                     <div className='table-cell'>Tasks Number</div>
                 </li>
                 {employeeData.map((employee) => (
-                    <Link to={`/employees/${employee.id}`}>
+                    <Link key={employee.id} to={`/employees/${employee.id}`}>
                         <li className='table_row' key={employee.id}>
                             <div className='table-cell'>{employee.EmployeeName}</div>
                             <div className='table-cell'>{employee.Designation}</div>

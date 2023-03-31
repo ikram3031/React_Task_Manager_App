@@ -16,7 +16,7 @@ const Home = () => {
 
             <div className="buttons">
                 <button onClick={() => navigate('/addtask')} className='btn'>Add Task</button>
-                <button onClick={() => navigate('/addemployee')} className='btn'>Add Employee</button>
+                <button onClick={() => navigate('/employee?mode=add')} className='btn'>Add Employee</button>
             </div>
         </div>
     )
