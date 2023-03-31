@@ -1,4 +1,4 @@
-export let Employees = [
+export let Employees = JSON.parse(localStorage.getItem("employees")) || [
     // {
     //     "EmployeeName": "John Doe",
     //     "id": 1234,
@@ -52,37 +52,70 @@ export let Employees = [
 // Add Employee
 export const addEmployee = (newEmployee) => {
     Employees.push(newEmployee);
+
+    // Save updated employees array to localStorage
+    localStorage.setItem("employees", JSON.stringify(Employees));
 }
 
-export const Tasks = [
-    {
-        "taskName": "Fix bugs in UI",
-        "taskId": 1,
-        "assigned": 1234
-    },
-    {
-        "taskName": "Refactor code",
-        "taskId": 2,
-        "assigned": 1234
-    },
-    {
-        "taskName": "Create project timeline",
-        "taskId": 3,
-        "assigned": 5678
-    },
-    {
-        "taskName": "Lead team meeting",
-        "taskId": 4,
-        "assigned": 5678
-    },
-    {
-        "taskName": "Design new website layout",
-        "taskId": 5,
-        "assigned": 9012
-    },
-    {
-        "taskName": "Implement responsive design",
-        "taskId": 6,
-        "assigned": 9012
+// Get Employee From Local Storage
+export const getFromLocalStorage = () => {
+    const employees = localStorage.getItem("employees");
+    if (employees) {
+        return JSON.parse(employees);
+    } else {
+        return [];
     }
+};
+
+// Update
+export const saveToLocalStorage = (employees) => {
+    localStorage.setItem('employees', JSON.stringify(employees));
+};
+
+
+
+export let Tasks = JSON.parse(localStorage.getItem("tasks")) || [
+    // {
+    //     "taskName": "Fix bugs in UI",
+    //     "taskId": 1,
+    //     "assigned": 1234
+    // },
+    // {
+    //     "taskName": "Refactor code",
+    //     "taskId": 2,
+    //     "assigned": 1234
+    // },
+    // {
+    //     "taskName": "Create project timeline",
+    //     "taskId": 3,
+    //     "assigned": 5678
+    // },
+    // {
+    //     "taskName": "Lead team meeting",
+    //     "taskId": 4,
+    //     "assigned": 5678
+    // },
+    // {
+    //     "taskName": "Design new website layout",
+    //     "taskId": 5,
+    //     "assigned": 9012
+    // },
 ];
+
+// Add Tasks
+export const addTask = (newTask) => {
+    Tasks.push(newTask);
+
+    // Save updated Tasks array to localStorage
+    localStorage.setItem("tasks", JSON.stringify(Tasks));
+}
+
+// Get task From Local Storage
+export const getTasksFromLocalStorage = () => {
+    const tasks = localStorage.getItem("tasks");
+    if (tasks) {
+        return JSON.parse(tasks);
+    } else {
+        return [];
+    }
+};

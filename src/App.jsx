@@ -15,7 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/employee" element={<AddEmployee />} />
-        <Route path="/addtask" element={<AddTask />} />
+        <Route path="/task" element={<AddTask />} />
         <Route path="/employees/:id" element={<Employee />} />
         <Route path="/employees" element={<EmployeeList />} />
         <Route path="/tasks" element={<TaskList />} />

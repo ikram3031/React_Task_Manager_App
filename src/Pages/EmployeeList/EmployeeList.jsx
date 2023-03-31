@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Employees } from '../../data/Data';
-import './EmployeeList.scss'
+import { getFromLocalStorage } from '../../data/Data';
+import './EmployeeList.scss';
 
 const EmployeeList = () => {
     const navigate = useNavigate();
+    const Employees = getFromLocalStorage()
     const [employeeData, setEmployeeData] = useState([]);
 
     useEffect(() => {
         setEmployeeData(Employees);
+        console.log(employeeData)
     }, []);
 
     return (

@@ -1,6 +1,6 @@
 @import '../../_variables';
 
-.table {
+.task_table {
     background-color: $gray;
     padding: 1rem;
     display: flex;
@@ -8,14 +8,14 @@
     gap: 0.5rem;
     font-family: $mulish;
 
-    .table_row {
+    .task_table_row {
         display: flex;
         align-items: center;
         justify-content: space-between;
         font-size: 1rem;
         cursor: pointer;
 
-        .table-cell {
+        .task_table-cell {
             width: 25%;
             padding: 0.5rem 1rem;
             border-bottom: 1px solid rgb(187, 187, 187);
