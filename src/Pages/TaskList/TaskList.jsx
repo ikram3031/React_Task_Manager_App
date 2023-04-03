@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getFromLocalStorage, Tasks } from '../../data/Data';
+import { getFromLocalStorage, getTasksFromLocalStorage } from '../../data/Data';
 import './TaskList.scss'
 
 const TaskList = () => {
     const navigate = useNavigate();
     const [taskData, setTaskData] = useState([]);
-    const [employee, setEmployee] = useState(null);
+    const tasks = getTasksFromLocalStorage();
     const employees = getFromLocalStorage();
-    console.log(employees)
 
     // function to find employee by id
     const findEmployeeById = (id) => {
@@ -16,7 +15,8 @@ const TaskList = () => {
     };
 
     useEffect(() => {
-        setTaskData(Tasks);
+        setTaskData(tasks);
+        console.log(taskData)
     }, []);
 
     return (
@@ -38,7 +38,7 @@ const TaskList = () => {
                         <li className='task_table_row' key={task.taskId}>
                             <div className='task_table-cell'>{task.taskId}</div>
                             <div className='task_table-cell'>{task.taskName}</div>
-                            <div className='task_table-cell'> {findEmployeeById(task.assigned)?.EmployeeName}</div>
+                            <div className='task_table-cell'> {findEmployeeById(parseInt(task.assigned))?.EmployeeName}</div>
                             <Link to={`/task?mode=edit&taskId=${task.taskId}`} className='task_table-cell'>Edit</Link>
                         </li>
 

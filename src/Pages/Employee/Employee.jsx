@@ -1,34 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getFromLocalStorage, getTasksFromLocalStorage } from '../../data/Data';
+import { getFromLocalStorage, getTasksFromLocalStorage, saveToLocalStorage } from '../../data/Data';
 import './Employee.scss';
 
 const Employee = () => {
-
+    const navigate = useNavigate();
     const { id } = useParams();
     const ID = Number(id)
     const [employee, setEmployee] = useState(null);
+    const [employeeTasks, setEmployeeTasks] = useState([]);
     const employees = getFromLocalStorage();
     const tasks = getTasksFromLocalStorage();
-    console.log(tasks)
 
-    const getEmployeeById = (id) => {
-        for (let i = 0; i <= employees.length; i++) {
-            if (employees[i].id === Number(id)) {
-                // console.log(employees[i])
-                return employees[i]
-            }
-        }
+    // function to find Task by id
+    const findTaskById = (id) => {
+        const task = tasks.find((Task) => Task.id === parseInt(id));
+        console.log(task)
+        return task
+    };
+
+    // Delete
+    const handleDelete = () => {
+        const filteredEmployees = employees.filter((emp) => emp.id !== ID);
+        saveToLocalStorage(filteredEmployees);
+        navigate('/employees');
     }
 
     useEffect(() => {
+        // find Employee By ID
+        const getEmployeeById = (id) => {
+            return employees.find((employee) => employee.id === id)
+        }
+
         const result = getEmployeeById(ID);
+        // console.log(result)
+
         if (result) {
             setEmployee(result)
+            setEmployeeTasks(result.Tasks);
+            // console.log(employee)
         }
-    }, [ID]);
 
-    const navigate = useNavigate();
+
+
+    }, [ID]);
 
     return (
         <div className='container'>
@@ -37,7 +52,10 @@ const Employee = () => {
 
                     <div className="top">
                         <h2>{employee.EmployeeName}</h2>
-                        <button onClick={() => navigate(`/employee?mode=edit&id=${employee.id}`)} className='btn'>Edit</button>
+                        <div className="buttons">
+                            <button onClick={() => navigate(`/employee?mode=edit&id=${employee.id}`)} className='btn'>Edit</button>
+                            <button onClick={handleDelete} className='btn_red'>Delete</button>
+                        </div>
                     </div>
 
                     <div className="employee_data">
@@ -66,19 +84,22 @@ const Employee = () => {
                             </div>
                         </div>
 
-                        <div className='employee_tasks'>
-                            <span>Assigned Tasks: {employee?.Tasks?.length}</span>
+                        {employeeTasks.length > 0 && (
+                            <div key={employee.id} className='employee_tasks'>
+                                <span>Assigned Tasks: {employeeTasks.length}</span>
 
-                            <div className="employee_single_task">
-                                {/* {employeeTasks &&
-                                    <ul>
-                                        {employeeTasks.map(task => (
-                                            <li key={task.taskId}>{task.taskName}</li>
-                                        ))}
-                                    </ul>
-                                } */}
+                                <div className="employee_single_task">
+                                    {employeeTasks.map((task) => {
+                                        console.log(employeeTasks)
+
+                                        return (<li key={task.taskId}>
+                                            {findTaskById(task.taskId)?.taskName}
+                                        </li>)
+
+                                    })}
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             ) : (

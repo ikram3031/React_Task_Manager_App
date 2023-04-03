@@ -67,7 +67,7 @@ export const getFromLocalStorage = () => {
     }
 };
 
-// Update
+// Employeess data Update
 export const saveToLocalStorage = (employees) => {
     localStorage.setItem('employees', JSON.stringify(employees));
 };
@@ -84,21 +84,6 @@ export let Tasks = JSON.parse(localStorage.getItem("tasks")) || [
     //     "taskName": "Refactor code",
     //     "taskId": 2,
     //     "assigned": 1234
-    // },
-    // {
-    //     "taskName": "Create project timeline",
-    //     "taskId": 3,
-    //     "assigned": 5678
-    // },
-    // {
-    //     "taskName": "Lead team meeting",
-    //     "taskId": 4,
-    //     "assigned": 5678
-    // },
-    // {
-    //     "taskName": "Design new website layout",
-    //     "taskId": 5,
-    //     "assigned": 9012
     // },
 ];
 
@@ -118,4 +103,10 @@ export const getTasksFromLocalStorage = () => {
     } else {
         return [];
     }
+};
+
+
+// Tasks data Update
+export const saveTasksToLocalStorage = (tasks) => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 };

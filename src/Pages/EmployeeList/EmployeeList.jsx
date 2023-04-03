@@ -10,7 +10,6 @@ const EmployeeList = () => {
 
     useEffect(() => {
         setEmployeeData(Employees);
-        console.log(employeeData)
     }, []);
 
     return (

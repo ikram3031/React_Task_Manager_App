@@ -4,7 +4,7 @@ import { addEmployee, getFromLocalStorage, saveToLocalStorage } from '../../data
 import './AddEmployee.scss';
 
 const AddEmployee = () => {
-    const Employees = getFromLocalStorage()
+    const Employees = getFromLocalStorage();
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -38,7 +38,7 @@ const AddEmployee = () => {
             const updatedEmployees = Employees.map((employee) =>
                 employee.id === parseInt(id) ? newEmployee : employee
             );
-            console.log(updatedEmployees)
+
             saveToLocalStorage(updatedEmployees);
         } else {
             const newId = Math.floor(Math.random() * 19986500);
@@ -52,15 +52,16 @@ const AddEmployee = () => {
 
     useEffect(() => {
         const mode = queryParams.get('mode');
-        console.log(mode)
+
         const id = queryParams.get('id');
+
+        console.log(`Mode: ${mode} && ID: ${id}`);
         setMode(mode);
         setId(id);
 
         if (mode === 'edit') {
             // Find the employee with the matching id in the Employees array
             const employee = Employees.find(emp => emp.id === Number(id));
-            console.log(employee)
             if (employee) {
                 // Set the initial values of the form to the employee's data
                 setNewEmployee({
