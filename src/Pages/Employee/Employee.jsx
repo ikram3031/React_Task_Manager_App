@@ -14,8 +14,7 @@ const Employee = () => {
 
     // function to find Task by id
     const findTaskById = (id) => {
-        const task = tasks.find((Task) => Task.id === parseInt(id));
-        console.log(task)
+        const task = tasks.find((Task) => Task.taskId === id);
         return task
     };
 
@@ -27,21 +26,18 @@ const Employee = () => {
     }
 
     useEffect(() => {
+
         // find Employee By ID
         const getEmployeeById = (id) => {
             return employees.find((employee) => employee.id === id)
         }
 
         const result = getEmployeeById(ID);
-        // console.log(result)
 
         if (result) {
             setEmployee(result)
             setEmployeeTasks(result.Tasks);
-            // console.log(employee)
         }
-
-
 
     }, [ID]);
 
@@ -89,14 +85,17 @@ const Employee = () => {
                                 <span>Assigned Tasks: {employeeTasks.length}</span>
 
                                 <div className="employee_single_task">
-                                    {employeeTasks.map((task) => {
-                                        console.log(employeeTasks)
+                                    <ul>
+                                        {employeeTasks.map((task) => {
 
-                                        return (<li key={task.taskId}>
-                                            {findTaskById(task.taskId)?.taskName}
-                                        </li>)
+                                            return (
+                                                <li key={task}>
+                                                    {findTaskById(task)?.taskName}
+                                                </li>
+                                            )
 
-                                    })}
+                                        })}
+                                    </ul>
                                 </div>
                             </div>
                         )}

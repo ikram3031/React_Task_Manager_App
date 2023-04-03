@@ -25,10 +25,25 @@ const AddTask = () => {
     });
 
     // Task Adding to Employee
-    const updateEmployeeData = (employeeId, taskId) => {
+    const updateEmployeeData = (previousEmployeeId, newEmployeeId, taskId) => {
         const employees = getFromLocalStorage();
         const updatedEmployees = employees.map((employee) => {
-            if (employee.id === parseInt(employeeId)) {
+
+            // if Assigned employee is not changed
+            if (employee.id === parseInt(previousEmployeeId)) {
+                const taskIndex = employee.Tasks.indexOf(parseInt(taskId));
+                if (taskIndex !== -1) {
+                    const updatedTasks = [...employee.Tasks];
+                    updatedTasks.splice(taskIndex, 1);
+                    return {
+                        ...employee,
+                        Tasks: updatedTasks,
+                    };
+                }
+            }
+
+            // if Assigned employee is changed
+            if (employee.id === parseInt(newEmployeeId)) {
                 const taskExists = employee.Tasks.some((task) => task === parseInt(taskId));
                 if (!taskExists) {
                     const updatedTasks = [...employee.Tasks, parseInt(taskId)];
@@ -53,29 +68,36 @@ const AddTask = () => {
         event.preventDefault();
         // check for mode
         const mode = queryParams.get("mode");
+
         if (mode === 'edit') {
             const id = queryParams.get('taskId');
+
             const updatedTask = { ...newTask, taskId: parseInt(id) };
+
+            // check if the task already exists
             const updatedTasks = Tasks.map((task) =>
                 task.taskId === parseInt(id) ? updatedTask : task
             );
 
-            console.log(`Task After Update: ${updatedTask}`)
+            const previousEmployeeId = parseInt(Tasks.find((task) => task.taskId === parseInt(id)).assigned);
 
-            const employeeId = parseInt(newTask.assigned)
+            const newEmployeeId = parseInt(newTask.assigned);
 
             saveTasksToLocalStorage(updatedTasks);
-            console.log(updatedTasks)
 
-            updateEmployeeData(updatedTask.assigned, id);
-
+            updateEmployeeData(previousEmployeeId, newEmployeeId, parseInt(id));
         } else {
             const newId = Math.floor(Math.random() * 19986500);
             const newTaskWithId = { ...newTask, taskId: newId };
+
             addTask(newTaskWithId);
-            updateEmployeeData(newTask.assigned, newId);
+            updateEmployeeData(null, parseInt(newTask.assigned), newId);
         }
-        navigate('/tasks');
+
+        // add a 2-second delay before navigating to the tasks page
+        setTimeout(() => {
+            navigate('/tasks');
+        }, 1000);
     };
 
     // Delete
@@ -85,6 +107,8 @@ const AddTask = () => {
         saveTasksToLocalStorage(updatedTasks);
 
         const employeeId = parseInt(newTask.assigned);
+
+        // Remove the Task from Employee Tasks
         const updatedEmployees = Employees.map((employee) => {
             if (employee.id === employeeId) {
                 const updatedTasks = employee.Tasks.filter((taskIdFromEmployee) => taskIdFromEmployee !== parseInt(taskId));
@@ -97,7 +121,10 @@ const AddTask = () => {
         });
         saveToLocalStorage(updatedEmployees);
 
-        navigate('/tasks');
+        // add a 2-second delay before navigating to the tasks page
+        setTimeout(() => {
+            navigate('/tasks');
+        }, 1000);
     };
 
 
