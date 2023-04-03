@@ -30,6 +30,7 @@ const TaskList = () => {
                     <div className='task_table-cell'>Task Id</div>
                     <div className='task_table-cell'>Task name</div>
                     <div className='task_table-cell'>Assigned Employee</div>
+                    <div className='task_table-cell'>Active</div>
                     <div className='task_table-cell'>Edit</div>
                 </li>
                 {
@@ -39,6 +40,7 @@ const TaskList = () => {
                             <div className='task_table-cell'>{task.taskId}</div>
                             <div className='task_table-cell'>{task.taskName}</div>
                             <div className='task_table-cell'> {findEmployeeById(parseInt(task.assigned))?.EmployeeName}</div>
+                            <div className='task_table-cell'>{task.isActive.toUpperCase()}</div>
                             <Link to={`/task?mode=edit&taskId=${task.taskId}`} className='task_table-cell'>Edit</Link>
                         </li>
 

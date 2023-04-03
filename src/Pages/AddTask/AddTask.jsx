@@ -22,6 +22,7 @@ const AddTask = () => {
         taskName: '',
         taskId: '',
         assigned: '',
+        isActive: 'true',
     });
 
     // Task Adding to Employee
@@ -170,7 +171,7 @@ const AddTask = () => {
 
             <form onSubmit={handleSubmit}>
 
-                <div >
+                <div className='form_row'>
                     <label htmlFor='taskName'>Task Name:</label>
                     <input
                         type='text'
@@ -182,7 +183,7 @@ const AddTask = () => {
                     />
                 </div>
 
-                <div >
+                <div className='form_row'>
                     <label htmlFor='taskName'>Assign to:</label>
                     <select
                         id='assigned'
@@ -198,6 +199,35 @@ const AddTask = () => {
                         ))}
                     </select>
                 </div>
+
+                {mode === 'add' ? ' ' : (
+                    <div className='form_row'>
+                        <label htmlFor="taskName">Is Active:</label>
+                        <div className='checkboxes'>
+                            <div className='checkbox'>
+                                <input
+                                    type="checkbox"
+                                    name="isActive"
+                                    value="true"
+                                    checked={newTask.isActive === 'true'}
+                                    onChange={handleInputChange}
+                                />
+                                True
+                            </div>
+                            <div className='checkbox'>
+                                <input
+                                    type="checkbox"
+                                    name="isActive"
+                                    value="false"
+                                    checked={newTask.isActive === 'false'}
+                                    onChange={handleInputChange}
+                                />
+                                False
+                            </div>
+                        </div>
+                    </div>
+
+                )}
 
                 <button className='btn m1' type='submit'>
                     {mode === 'add' ? 'Create Task' : 'Update Task'}

@@ -17,7 +17,7 @@
         justify-content: center;
         gap: 0.5rem;
 
-        div {
+        .form_row {
             display: flex;
             flex-direction: column;
             width: 80%;
@@ -29,6 +29,22 @@
                 font-weight: 600;
                 margin-bottom: 0.5rem;
             }
+
+            .checkboxes {
+                display: flex;
+                gap: 1rem;
+                font-size: 1rem;
+                font-family: $mulish;
+
+                .checkbox {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    gap: 0.6rem;
+                }
+            }
         }
+
+
     }
 }
