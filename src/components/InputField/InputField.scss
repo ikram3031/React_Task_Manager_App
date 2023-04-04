@@ -1,0 +1,15 @@
+@import '../../_variables';
+
+.input {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 0 auto;
+
+    label {
+        font-size: 1rem;
+        font-family: $mulish;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+}

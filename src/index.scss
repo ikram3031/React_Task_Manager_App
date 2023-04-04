@@ -82,7 +82,7 @@ li {
   font-size: 2rem;
   font-weight: 500;
   color: $dark;
-  margin: 1rem 0;
+  margin: 1.5rem 0;
 }
 
 .m1 {
@@ -136,4 +136,22 @@ input[type="checkbox"]:checked {
   background-color: #02457a;
   border-color: $dark;
   box-shadow: 0 0 3px 3px rgba(0, 0, 255, 0.2);
+}
+
+// Error
+.error {
+  position: fixed;
+  background-color: red;
+  width: 45%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 0.1rem 0;
+
+  h3 {
+    color: white;
+    align-self: center;
+    font-weight: 500;
+    margin: 0 auto;
+  }
 }

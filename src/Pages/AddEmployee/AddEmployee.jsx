@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { addEmployee, getFromLocalStorage, saveToLocalStorage } from '../../data/Data';
 import './AddEmployee.scss';
+import InputField from '../../components/InputField/InputField';
 
 const AddEmployee = () => {
     const Employees = getFromLocalStorage();
@@ -10,6 +11,7 @@ const AddEmployee = () => {
     const queryParams = new URLSearchParams(location.search);
     const [mode, setMode] = useState(null);
     const [id, setId] = useState(null);
+    const [error, setError] = useState('');
 
     const [newEmployee, setNewEmployee] = useState({
         EmployeeName: '',
@@ -21,32 +23,47 @@ const AddEmployee = () => {
         Tasks: []
     });
 
+    // id
     const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setNewEmployee((prevEmployee) => ({ ...prevEmployee, [name]: value }));
+        const { id, value } = event.target;
+        setNewEmployee((prevEmployee) => ({ ...prevEmployee, [id]: value }));
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        // Check for mode
-        const mode = queryParams.get("mode");
+        // check for blank inputs
+        if (newEmployee.EmployeeName === '' || newEmployee.Designation === '' || newEmployee.Email === '' || newEmployee.Address === '' || newEmployee.Phone === '') {
+            setError('Please fill out all input fields!!!');
 
-        if (mode === "edit") {
-            const id = queryParams.get('id');
+            setTimeout(() => {
+                setError('');
+            }, 3000);
 
-            const updatedEmployees = Employees.map((employee) =>
-                employee.id === parseInt(id) ? newEmployee : employee
-            );
-
-            saveToLocalStorage(updatedEmployees);
+            return;
         } else {
-            const newId = Math.floor(Math.random() * 19986500);
-            const newEmployeeWithId = { ...newEmployee, id: newId };
-            addEmployee(newEmployeeWithId);
-        }
+            // Check for mode
+            const mode = queryParams.get("mode");
 
-        navigate("/employees");
+            if (mode === "edit") {
+                const id = queryParams.get('id');
+
+                const updatedEmployees = Employees.map((employee) =>
+                    employee.id === parseInt(id) ? newEmployee : employee
+                );
+
+                saveToLocalStorage(updatedEmployees);
+            } else {
+                const newId = Math.floor(Math.random() * 19986500);
+                const newEmployeeWithId = { ...newEmployee, id: newId };
+                addEmployee(newEmployeeWithId);
+            }
+
+            // add a 1-second delay before navigating to the Employees page
+            setTimeout(() => {
+                navigate('/employees');
+            }, 1000);
+        }
     };
 
 
@@ -82,62 +99,61 @@ const AddEmployee = () => {
             <h2 className='title'>
                 {mode === 'add' ? 'Add Employee' : 'Edit Employee'}
             </h2>
+
+            {/* Show Error */}
+            {error && (
+                <div className="error">
+                    <h3>{error}</h3>
+                </div>
+            )}
+
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor='employeeName'>Employee Name:</label>
-                    <input
-                        type='text'
-                        id='employeeName'
-                        name='EmployeeName'
-                        value={newEmployee.EmployeeName}
-                        placeholder={mode === 'edit' ? newEmployee.EmployeeName : ' '}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='designation'>Designation:</label>
-                    <input
-                        type='text'
-                        id='designation'
-                        name='Designation'
-                        value={newEmployee.Designation}
-                        placeholder={mode === 'edit' ? newEmployee.Designation : ''}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='email'>Email:</label>
-                    <input
-                        type='email'
-                        id='email'
-                        name='Email'
-                        value={newEmployee.Email}
-                        placeholder={mode === 'edit' ? newEmployee.Email : ''}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='address'>Address:</label>
-                    <input
-                        type='text'
-                        id='address'
-                        name='Address'
-                        value={newEmployee.Address}
-                        placeholder={mode === 'edit' ? newEmployee.Address : ''}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='phone'>Phone:</label>
-                    <input
-                        type='text'
-                        id='phone'
-                        name='Phone'
-                        value={newEmployee.Phone}
-                        placeholder={mode === 'edit' ? newEmployee.Phone : ''}
-                        onChange={handleInputChange}
-                    />
-                </div>
+                <InputField
+                    label='Employee Name:'
+                    type='text'
+                    id='EmployeeName'
+                    name='EmployeeName'
+                    value={newEmployee.EmployeeName}
+                    onChange={handleInputChange}
+                    placeholder={mode === 'edit' ? newEmployee.EmployeeName : ' '}
+                />
+                <InputField
+                    label='Designation:'
+                    type='text'
+                    id='Designation'
+                    name='Designation'
+                    value={newEmployee.Designation}
+                    onChange={handleInputChange}
+                    placeholder={mode === 'edit' ? newEmployee.Designation : ' '}
+                />
+                <InputField
+                    label='Email:'
+                    type='email'
+                    id='Email'
+                    name='Email'
+                    value={newEmployee.Email}
+                    onChange={handleInputChange}
+                    placeholder={mode === 'edit' ? newEmployee.Email : ' '}
+                />
+                <InputField
+                    label='Address:'
+                    type='text'
+                    id='Address'
+                    name='Address'
+                    value={newEmployee.Address}
+                    onChange={handleInputChange}
+                    placeholder={mode === 'edit' ? newEmployee.Address : ' '}
+                />
+                <InputField
+                    label='Phone:'
+                    type='tel'
+                    id='Phone'
+                    name='Phone'
+                    value={newEmployee.Phone}
+                    onChange={handleInputChange}
+                    placeholder={mode === 'edit' ? newEmployee.Phone : ' '}
+                />
+
                 <button className='btn m1' type='submit'>
                     {mode === 'add' ? 'Create Employee' : 'Update Employee'}
                 </button>

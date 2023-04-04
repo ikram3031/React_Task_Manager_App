@@ -8,6 +8,7 @@ import {
     saveTasksToLocalStorage
 } from '../../data/Data';
 import './AddTask.scss';
+import InputField from '../../components/InputField/InputField';
 
 const AddTask = () => {
     const Employees = getFromLocalStorage();
@@ -17,6 +18,7 @@ const AddTask = () => {
     const queryParams = new URLSearchParams(location.search);
     const [mode, setMode] = useState(null);
     const [id, setId] = useState(null);
+    const [error, setError] = useState('');
 
     const [newTask, setNewTask] = useState({
         taskName: '',
@@ -67,38 +69,54 @@ const AddTask = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // check for mode
-        const mode = queryParams.get("mode");
 
-        if (mode === 'edit') {
-            const id = queryParams.get('taskId');
+        // check for empty form inputs
+        if (newTask.taskName === '' || newTask.assigned === '') {
+            setError('Please Provide Task Name && Assigned Employee')
 
-            const updatedTask = { ...newTask, taskId: parseInt(id) };
+            console.log(error)
 
-            // check if the task already exists
-            const updatedTasks = Tasks.map((task) =>
-                task.taskId === parseInt(id) ? updatedTask : task
-            );
+            setTimeout(() => {
+                setError('')
+            }, 3000);
 
-            const previousEmployeeId = parseInt(Tasks.find((task) => task.taskId === parseInt(id)).assigned);
+            return
+        }
+        else {
+            // check for mode
+            const mode = queryParams.get("mode");
 
-            const newEmployeeId = parseInt(newTask.assigned);
+            if (mode === 'edit') {
+                const id = queryParams.get('taskId');
 
-            saveTasksToLocalStorage(updatedTasks);
+                const updatedTask = { ...newTask, taskId: parseInt(id) };
 
-            updateEmployeeData(previousEmployeeId, newEmployeeId, parseInt(id));
-        } else {
-            const newId = Math.floor(Math.random() * 19986500);
-            const newTaskWithId = { ...newTask, taskId: newId };
+                // check if the task already exists
+                const updatedTasks = Tasks.map((task) =>
+                    task.taskId === parseInt(id) ? updatedTask : task
+                );
 
-            addTask(newTaskWithId);
-            updateEmployeeData(null, parseInt(newTask.assigned), newId);
+                const previousEmployeeId = parseInt(Tasks.find((task) => task.taskId === parseInt(id)).assigned);
+
+                const newEmployeeId = parseInt(newTask.assigned);
+
+                saveTasksToLocalStorage(updatedTasks);
+
+                updateEmployeeData(previousEmployeeId, newEmployeeId, parseInt(id));
+            } else {
+                const newId = Math.floor(Math.random() * 19986500);
+                const newTaskWithId = { ...newTask, taskId: newId };
+
+                addTask(newTaskWithId);
+                updateEmployeeData(null, parseInt(newTask.assigned), newId);
+            }
+
+            // add a 1-second delay before navigating to the tasks page
+            setTimeout(() => {
+                navigate('/tasks');
+            }, 1000);
         }
 
-        // add a 2-second delay before navigating to the tasks page
-        setTimeout(() => {
-            navigate('/tasks');
-        }, 1000);
     };
 
     // Delete
@@ -169,19 +187,23 @@ const AddTask = () => {
                 }
             </div>
 
-            <form onSubmit={handleSubmit}>
-
-                <div className='form_row'>
-                    <label htmlFor='taskName'>Task Name:</label>
-                    <input
-                        type='text'
-                        id='taskName'
-                        name='taskName'
-                        value={newTask.taskName || ""}
-                        onChange={handleInputChange}
-                        placeholder={mode === 'edit' ? newTask.taskName : ''}
-                    />
+            {/* Show Error */}
+            {error && (
+                <div className="error">
+                    <h3>{error}</h3>
                 </div>
+            )}
+
+            <form onSubmit={handleSubmit}>
+                <InputField
+                    label='Task Name:'
+                    type='text'
+                    id='taskName'
+                    name='taskName'
+                    value={newTask.taskName}
+                    onChange={handleInputChange}
+                    placeholder={mode === 'edit' ? newTask.taskName : ' '}
+                />
 
                 <div className='form_row'>
                     <label htmlFor='taskName'>Assign to:</label>
