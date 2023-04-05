@@ -12,6 +12,7 @@ const AddEmployee = () => {
     const [mode, setMode] = useState(null);
     const [id, setId] = useState(null);
     const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
 
     const [newEmployee, setNewEmployee] = useState({
         EmployeeName: '',
@@ -20,7 +21,8 @@ const AddEmployee = () => {
         Email: '',
         Address: '',
         Phone: '',
-        Tasks: []
+        Tasks: [],
+        Leaves: [],
     });
 
     // id
@@ -29,6 +31,7 @@ const AddEmployee = () => {
         setNewEmployee((prevEmployee) => ({ ...prevEmployee, [id]: value }));
     };
 
+    // Submit Function
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -53,16 +56,22 @@ const AddEmployee = () => {
                 );
 
                 saveToLocalStorage(updatedEmployees);
+
+                setMessage('Employee Updated Successfully...')
             } else {
                 const newId = Math.floor(Math.random() * 19986500);
                 const newEmployeeWithId = { ...newEmployee, id: newId };
+
+
                 addEmployee(newEmployeeWithId);
+
+                setMessage('Employee Created Successfully ...')
             }
 
             // add a 1-second delay before navigating to the Employees page
             setTimeout(() => {
                 navigate('/employees');
-            }, 1000);
+            }, 2000);
         }
     };
 
@@ -104,6 +113,13 @@ const AddEmployee = () => {
             {error && (
                 <div className="error">
                     <h3>{error}</h3>
+                </div>
+            )}
+
+            {/* Show message */}
+            {message && (
+                <div className="message">
+                    <h3>{message}</h3>
                 </div>
             )}
 

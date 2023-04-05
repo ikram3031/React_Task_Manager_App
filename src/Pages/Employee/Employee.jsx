@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getFromLocalStorage, getTasksFromLocalStorage, saveToLocalStorage } from '../../data/Data';
 import './Employee.scss';
 
@@ -9,6 +9,7 @@ const Employee = () => {
     const ID = Number(id)
     const [employee, setEmployee] = useState(null);
     const [employeeTasks, setEmployeeTasks] = useState([]);
+    const [employeeLeaves, setEmployeeLeaves] = useState([]);
     const employees = getFromLocalStorage();
     const tasks = getTasksFromLocalStorage();
 
@@ -37,6 +38,7 @@ const Employee = () => {
         if (result) {
             setEmployee(result)
             setEmployeeTasks(result.Tasks);
+            setEmployeeLeaves(result.Leaves)
         }
 
     }, [ID]);
@@ -82,7 +84,7 @@ const Employee = () => {
 
                         {employeeTasks.length > 0 && (
                             <div key={employee.id} className='employee_tasks'>
-                                <span>Assigned Tasks: {employeeTasks.length}</span>
+                                <div className='task_header'>Assigned Tasks: {employeeTasks.length}</div>
 
                                 <div className="employee_single_task">
                                     <ul>
@@ -99,6 +101,37 @@ const Employee = () => {
                                 </div>
                             </div>
                         )}
+
+                        <div className="employee_leaves">
+                            <div className='leave_header'>
+                                <span>Taken Leaves:</span>
+                                <button
+                                    onClick={() => navigate(`/employees/leave?mode=add&id=${id}`)}
+                                    className='btn_leave'>Request a Leave</button>
+                            </div>
+
+                            <div className="employee_leave_list">
+                                <ul>
+                                    <li className='list_one'>
+                                        <div className='leave_cell'>Leave Type</div>
+                                        <div className='leave_cell'>Reason</div>
+                                        <div className='leave_cell'>Duration</div>
+                                        <div className='leave_small'>Edit</div>
+                                    </li>
+                                    {
+                                        employeeLeaves.length > 0 && employeeLeaves.map((leave) => {
+                                            return (
+                                                <li key={leave.LeaveId} className='list_other'>
+                                                    <div className='leave_cell'>{leave.LeaveType}</div>
+                                                    <div className='leave_cell'>{leave.LeaveReason}</div>
+                                                    <div className='leave_cell'>{leave.LeaveDuration} Day/s</div>
+                                                    <Link to={`/employees/leave?mode=edit&id=${id}&leaveId=${leave.LeaveId}`} className='leave_small'>Edit</Link>
+                                                </li>
+                                            )
+                                        })}
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             ) : (

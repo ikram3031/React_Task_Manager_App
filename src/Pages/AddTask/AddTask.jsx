@@ -19,6 +19,7 @@ const AddTask = () => {
     const [mode, setMode] = useState(null);
     const [id, setId] = useState(null);
     const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
 
     const [newTask, setNewTask] = useState({
         taskName: '',
@@ -63,10 +64,11 @@ const AddTask = () => {
 
 
     const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setNewTask((prevTask) => ({ ...prevTask, [name]: value }));
+        const { id, value } = event.target;
+        setNewTask((prevTask) => ({ ...prevTask, [id]: value }));
     };
 
+    // Submit Function
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -103,18 +105,23 @@ const AddTask = () => {
                 saveTasksToLocalStorage(updatedTasks);
 
                 updateEmployeeData(previousEmployeeId, newEmployeeId, parseInt(id));
+
+                setMessage('Task Updated Successfully...')
             } else {
                 const newId = Math.floor(Math.random() * 19986500);
                 const newTaskWithId = { ...newTask, taskId: newId };
 
                 addTask(newTaskWithId);
                 updateEmployeeData(null, parseInt(newTask.assigned), newId);
+
+                setMessage('Task Created Successfully...')
+
             }
 
-            // add a 1-second delay before navigating to the tasks page
+            // add a 2-seconds delay before navigating to the tasks page
             setTimeout(() => {
                 navigate('/tasks');
-            }, 1000);
+            }, 2000);
         }
 
     };
@@ -143,7 +150,7 @@ const AddTask = () => {
         // add a 2-second delay before navigating to the tasks page
         setTimeout(() => {
             navigate('/tasks');
-        }, 1000);
+        }, 2000);
     };
 
 
@@ -194,6 +201,13 @@ const AddTask = () => {
                 </div>
             )}
 
+            {/* Show message */}
+            {message && (
+                <div className="message">
+                    <h3>{message}</h3>
+                </div>
+            )}
+
             <form onSubmit={handleSubmit}>
                 <InputField
                     label='Task Name:'
@@ -228,7 +242,8 @@ const AddTask = () => {
                         <div className='checkboxes'>
                             <div className='checkbox'>
                                 <input
-                                    type="checkbox"
+                                    id="isActive"
+                                    type="radio"
                                     name="isActive"
                                     value="true"
                                     checked={newTask.isActive === 'true'}
@@ -238,7 +253,8 @@ const AddTask = () => {
                             </div>
                             <div className='checkbox'>
                                 <input
-                                    type="checkbox"
+                                    id="isActive"
+                                    type="radio"
                                     name="isActive"
                                     value="false"
                                     checked={newTask.isActive === 'false'}
